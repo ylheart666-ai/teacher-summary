@@ -1,0 +1,572 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="description" content="教师粘贴两套课件汇总行，在本地核对班级错因、节点掌握与条件判断情况。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<link rel="icon" href="data:,">
+<title>先判后算 · 班级学情汇总（教师端）</title>
+<style>
+:root{--navy:#142f50;--blue:#285f93;--ink:#20364d;--muted:#617487;--line:#dce5ed;--bg:#f1f5f9;--orange:#c76b1e;--warm:#fff2e4;--radius:14px}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.6 system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif}button,textarea,select{font:inherit}button{cursor:pointer}button:focus-visible,textarea:focus-visible,select:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid #e9a354;outline-offset:3px}button{border:1px solid var(--line);border-radius:8px;padding:9px 17px;color:var(--ink);background:white;font-weight:600}button:hover{background:#eaf1f7}button.primary{background:var(--blue);border-color:var(--blue);color:white}button.primary:hover{background:#194c7b}h1,h2,h3,p{margin:0}h1{font-size:25px;letter-spacing:.03em;font-weight:680}h2{font-size:18px}h3{font-size:15px}small,.note{font-size:12px;color:var(--muted)}[hidden]{display:none!important}
+.masthead{background:var(--navy);color:white;border-bottom:4px solid #d9863a}.head-inner{max-width:1152px;margin:auto;padding:25px 0 23px;display:flex;gap:20px;justify-content:space-between;align-items:center}.eyebrow{font-size:11px;letter-spacing:.18em;color:#b7cce2;margin-bottom:5px}.head-note{color:#d2deea;margin-top:7px;font-size:13px}.version{border:1px solid #59718a;border-radius:20px;padding:4px 13px;white-space:nowrap;font-size:12px;color:#d2deea}main{max-width:1152px;margin:22px auto 40px}.panel{background:white;border:1px solid var(--line);border-radius:var(--radius);padding:21px 24px;margin-bottom:18px}.input-head{display:flex;align-items:center;gap:12px;margin-bottom:10px}.step{font-size:11px;letter-spacing:.08em;color:var(--blue);font-weight:750;border-radius:6px;background:#eaf2f9;padding:3px 7px}textarea{display:block;width:100%;height:112px;resize:vertical;background:#fafcfe;border:1px solid #cbd8e4;border-radius:9px;padding:12px 14px;line-height:1.6;color:var(--ink);font-family:inherit}textarea::placeholder{color:#8090a1}.input-actions{margin-top:12px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.buttons{display:flex;gap:8px;flex-wrap:wrap}.privacy{font-size:12px;color:var(--muted)}.empty-start{border:1px dashed #c6d5e3;border-radius:var(--radius);padding:32px;text-align:center;color:var(--muted)}.empty-start strong{display:block;color:var(--ink);font-size:17px;font-weight:600;margin-bottom:6px}.empty-start span{font-size:13px}.result-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:24px 0 12px}.demo-badge{background:#fff0db;color:#984d0e;border:1px solid #ebc390;border-radius:6px;font-size:12px;font-weight:650;padding:4px 10px}.tabs{display:flex;border-bottom:1px solid #cad8e5;gap:6px;margin-bottom:17px;overflow-x:auto}.tab{background:transparent;border:0;border-bottom:3px solid transparent;border-radius:8px 8px 0 0;padding:11px 20px;white-space:nowrap;font-weight:600;color:var(--muted)}.tab[aria-selected=true]{background:#e3edf6;border-color:var(--blue);color:var(--navy)}.parse-bar{font-size:12px;padding:10px 14px;margin-bottom:12px;background:#e7eef5;border-radius:8px;color:#456078;display:flex;gap:6px 16px;flex-wrap:wrap}.parse-bar details{width:100%;border-top:1px solid #cedce8;padding-top:6px}.parse-bar summary{cursor:pointer}.parse-bar ul{max-height:180px;overflow:auto;padding-left:20px}.parse-bar li{overflow-wrap:anywhere}.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:15px}.metric{background:white;border:1px solid var(--line);border-radius:12px;padding:15px 19px;min-width:0}.metric-label{font-size:12px;color:var(--muted)}.metric-value{font-size:29px;line-height:1.25;font-weight:720;color:var(--navy);margin-top:3px}.metric-value .unit{font-size:13px;font-weight:400;margin-left:5px}.metric-sub{font-size:11px;color:var(--muted);margin-top:4px}.spotlight{border-left:4px solid var(--orange);background:var(--warm);padding:16px 20px;border-radius:10px;margin-bottom:16px}.spotlight strong{font-size:20px;color:#925019}.spotlight p{font-size:13px;color:#7a5b40;margin-top:4px}.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:14px}.section-head .note{font-weight:400}.bars{display:grid;gap:9px}.bar-row{display:grid;grid-template-columns:200px 1fr 105px;align-items:center;gap:12px}.bar-label{font-size:13px;overflow-wrap:anywhere}.bar-track{height:9px;border-radius:8px;background:#edf2f7;overflow:hidden}.bar-fill{height:100%;border-radius:8px;background:#537da3;min-width:2px}.bar-row:first-child .bar-fill{background:#d18a46}.bar-count{font-size:12px;color:var(--muted);text-align:right;font-variant-numeric:tabular-nums}.method{font-size:12px;color:var(--muted);margin-top:12px}.table-wrap{width:100%;overflow:auto;border:1px solid var(--line);border-radius:9px}table{border-collapse:collapse;min-width:100%;text-align:left;font-size:12px;white-space:nowrap}th{background:#f1f5f9;color:#4b647d;font-weight:650}td,th{padding:11px 13px;border-bottom:1px solid #e4ebf1}tbody tr:last-child td{border-bottom:0}tbody tr:hover td{box-shadow:inset 0 0 0 9999px #e7eff630}td.student-name{font-weight:650;color:var(--navy);max-width:210px;white-space:normal;overflow-wrap:anywhere}td.wrap{white-space:normal;min-width:175px;max-width:280px;overflow-wrap:anywhere}.table-sort{padding:0;border:0;background:none;color:inherit;font-weight:inherit;text-align:left;border-radius:2px}.table-sort:hover{background:transparent;text-decoration:underline}.heat{text-align:center;min-width:120px;font-variant-numeric:tabular-nums}.warm-text{color:#a45b22;font-weight:650}.legacy{color:#788694;font-style:italic}.legacy-box{background:#f5f7f9;border:1px dashed #d0dbe3;border-radius:8px;padding:12px 15px;margin-top:12px}.legacy-list{display:flex;gap:6px 20px;flex-wrap:wrap;font-size:12px;margin-top:7px}.flex-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.flex-item{border:1px solid var(--line);border-radius:10px;padding:14px 16px;background:#fafcfe}.flex-item p{margin-top:7px;font-size:13px}.advice{border-left:3px solid #7b9bb9;background:#f5f8fc;padding:13px 18px;border-radius:3px 10px 10px 3px}.advice p+p{margin-top:9px}.controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.controls label{font-size:12px;color:var(--muted)}select{max-width:100%;border:1px solid #cbd8e4;border-radius:6px;padding:6px 9px;color:var(--ink);background:white}.blank{padding:24px 0;color:var(--muted);text-align:center}.notice{background:#e8f0f8;border-left:3px solid #6d8faf;padding:12px 16px;border-radius:5px;font-size:13px;margin-bottom:16px}.footer{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:12px;flex-wrap:wrap;margin-top:24px;padding:0 3px}.live-status{font-size:12px;color:#41623e;min-height:20px;margin-top:8px}.export-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.export-row small{margin-left:auto}.cross-note{font-size:12px;color:var(--muted);margin-bottom:13px}.mono{font-variant-numeric:tabular-nums}.cross th{text-align:center}.cross td:first-child{position:sticky;left:0;background:white}.cross thead tr:last-child th{font-size:11px}.cross tbody tr[data-issue=true] td:first-child{border-left:3px solid #d49a61}.cross-top.metrics{grid-template-columns:repeat(3,1fr)}.readonly-copy{height:120px;margin-top:10px}.metric sup{font-size:12px}.pending{background:#fff5e6;border:1px solid #e9c793;color:#8e5a21;border-radius:7px;padding:8px 12px;font-size:12px;margin-bottom:12px}.num-tip{font-size:12px;font-weight:400;color:#7a5b40}
+@media(min-width:1000px){main,.head-inner{width:calc(100% - 80px)}}@media(max-width:999px){main{margin:18px 22px 35px}.head-inner{padding:22px}.version{display:none}.bar-row{grid-template-columns:180px 1fr 95px}}
+@media(max-width:600px){body{font-size:13px}.head-inner{padding:19px 17px}h1{font-size:21px;line-height:1.5}.head-note{font-size:12px}main{margin:16px 12px 26px}.panel{padding:16px;margin-bottom:14px}textarea{height:138px;font-size:13px}.input-actions{gap:8px}.buttons{gap:7px}button{padding:9px 12px}.privacy{font-size:11px}.tab{padding:10px 12px;font-size:12px}.metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.metric{padding:12px 14px}.metric-value{font-size:26px}.bar-row{grid-template-columns:1fr 84px;gap:2px 10px}.bar-label{font-size:12px}.bar-track{grid-column:1;grid-row:auto;height:7px}.bar-count{grid-column:2;grid-row:span 2;align-self:center}.flex-grid{grid-template-columns:1fr}.flex-item{padding:12px}.spotlight strong{font-size:17px}.cross-top.metrics{grid-template-columns:1fr}.cross-top .metric{display:flex;align-items:center;justify-content:space-between}.cross-top .metric-value{font-size:24px;margin:0}h2{font-size:16px}.section-head{gap:8px}td,th{padding:10px}.export-row small{margin-left:0}.empty-start{padding:24px 15px}.footer{font-size:11px}.result-head{margin-top:20px}.parse-bar{gap:5px 12px}}
+.input-panel.compact{padding:14px 20px}.input-panel.compact .input-head{float:left;margin:5px 12px 4px 0;gap:8px}.input-panel.compact h2{font-size:14px}.input-panel.compact .input-actions{justify-content:flex-end;margin:0}.input-panel.compact .privacy{display:none}.input-panel.compact .live-status{clear:both;margin-top:6px;font-size:11px}#edit-input{padding:3px 8px;font-size:11px;font-weight:400}.compact .step{display:none}@media(max-width:600px){.input-panel.compact .input-head{float:none;margin:0 0 10px}.input-panel.compact .input-actions{justify-content:flex-start}.input-panel.compact{padding:14px 16px}}@media print{.masthead{background:white;color:black}main{max-width:none}.input-panel,.tabs,.export-row,.footer,.controls{display:none}.panel{break-inside:avoid}.table-wrap{overflow:visible}table{white-space:normal}.head-note{color:#333}.metrics{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body>
+<header class="masthead"><div class="head-inner"><div><p class="eyebrow">先判条件，再做计算 · 教师工具</p><h1>先判后算 · 班级学情汇总（教师端）</h1><p class="head-note">粘贴课件汇总行，核对全班错因与判断习惯。</p></div><span class="version">T7 · 离线可用</span></div></header>
+<main>
+<section id="input-panel" class="panel input-panel" aria-labelledby="input-title"><div class="input-head"><span class="step">01 / 收集</span><h2 id="input-title"><label for="source">粘贴学生汇总行</label></h2><button id="edit-input" aria-controls="source" aria-expanded="true" hidden>展开输入</button></div><textarea id="source" spellcheck="false" autocomplete="off" placeholder="把学生交来的汇总行粘贴到这里，可以一次粘贴多名学生、多轮记录，夹杂其他文字也没关系。"></textarea><div class="input-actions"><div class="buttons"><button id="analyze" class="primary">开始汇总</button><button id="sample">载入示例数据</button><button id="clear">清空</button></div><p class="privacy">数据只在本页面内处理，不上传、不保存，关闭页面即清除。</p></div><p id="input-status" class="live-status" role="status" aria-live="polite"></p></section>
+<div id="intro" class="empty-start"><strong>从一行记录，看见全班的判断习惯</strong><span>支持最值与洛必达课件 · 多轮记录按学生归并 · 固定规则统计，结果可核对</span></div>
+<section id="results" hidden aria-label="班级汇总结果"><div class="result-head"><span class="step">02 / 学情</span><h2>班级学情</h2><span id="demo-badge" class="demo-badge" hidden>当前为示例数据，非真实学情</span></div><p id="stale" class="pending" hidden>输入内容已修改，请点击“开始汇总”更新结果。</p><div class="tabs" role="tablist" aria-label="汇总模块"><button class="tab" id="tab-extremum" role="tab" aria-selected="true" aria-controls="module-panel" data-tab="extremum">最值判断</button><button class="tab" id="tab-lhopital" role="tab" aria-selected="false" aria-controls="module-panel" data-tab="lhopital" tabindex="-1">洛必达法则</button><button class="tab" id="tab-cross" role="tab" aria-selected="false" aria-controls="module-panel" data-tab="cross" tabindex="-1">学生总览（两模块）</button></div><div id="module-panel" role="tabpanel" aria-labelledby="tab-extremum"></div></section>
+<footer class="footer"><span>学生端练判断，教师端看错因。</span><span>按规则统计 · 不联网 · 不保存输入数据</span></footer>
+</main>
+<noscript>请启用浏览器 JavaScript 以在本地解析汇总行。页面不上传数据。</noscript>
+<script>
+/* T7 statistics engine: pure, deterministic, and independent of the DOM. */
+(function (root) {
+  'use strict';
+
+  const MODULES = { extremum: '最值判断', lhopital: '洛必达法则' };
+  const CASES = Object.freeze({
+    wire: '铁丝分割：围成面积最大',
+    reservoir: '蓄水池调度：水位最低时刻',
+    trail: '骑行线路：海拔最低点',
+    transport: '工程选址：运费最省',
+    // Copied verbatim from the frozen extremum CASES source.
+    container: '开口容器：容积最大',
+    cylinder: '有盖圆柱仓库：用料最省',
+    'exp-basic': '基础正例：先检验，再使用',
+    'not-indet': '类型检验：确定值不能误用',
+    xlnx: '先变形：把乘积写成分式',
+    recheck: '连续使用：每步再检验',
+    'x-sinx': '失效后回退：不能反推'
+  });
+  const ERRORS = Object.freeze([
+    { module: 'extremum', tag: 'endpoint-omission', label: '端点遗漏', node: 'A', caseId: 'wire' },
+    { module: 'extremum', tag: 'derivative-filter', label: '导数筛选', node: '②', caseId: 'container' },
+    { module: 'extremum', tag: 'non-differentiable', label: '不可导点', node: 'B', caseId: 'reservoir' },
+    { module: 'extremum', tag: 'flexible-overgeneralization', label: '灵活判断过度泛化', node: 'C', caseId: 'trail' },
+    { module: 'extremum', tag: 'condition-awareness', label: '条件意识', node: 'A、B、C', caseId: 'wire' },
+    { module: 'extremum', tag: 'procedure-fragmentation', label: '程序碎片化', node: '①②④', caseId: 'container' },
+    { module: 'extremum', tag: 'comparison-error', label: '比较错误', node: '④', caseId: 'container' },
+    { module: 'lhopital', tag: 'lh-type-check', label: '类型检验', node: 'N1', caseId: 'not-indet' },
+    { module: 'lhopital', tag: 'lh-transform', label: '变形', node: 'N3', caseId: 'xlnx' },
+    { module: 'lhopital', tag: 'lh-recheck', label: '每步再检验', node: 'N4', caseId: 'recheck' },
+    { module: 'lhopital', tag: 'lh-reverse-inference', label: '失效回退', node: 'R', caseId: 'x-sinx' }
+  ]);
+  const NODES = Object.freeze({
+    extremum: [
+      { id: '1', label: '最值存在性' }, { id: '2', label: '候选点识别' },
+      { id: '4', label: '候选值比较' }, { id: 'A', label: '端点排除' },
+      { id: 'B', label: '可导性判断' }, { id: 'C', label: '驻点唯一性' }
+    ],
+    lhopital: [
+      { id: 'N1', label: '识别类型' }, { id: 'N2', label: '验证条件' },
+      { id: 'N3', label: '决策' }, { id: 'N4', label: '再检验' },
+      { id: 'R', label: '失效回退' }
+    ]
+  });
+  const TRAPS = Object.freeze([
+    { caseId: 'not-indet', node: 'N3', meaning: '不是未定式，仍用法则', type: '误用法则' },
+    { caseId: 'xlnx', node: 'N3', meaning: '0·∞ 型没变形，直接求导', type: '误用法则' },
+    { caseId: 'recheck', node: 'N4', meaning: '用完一次不再检验，接着用法则', type: '误用法则' },
+    { caseId: 'x-sinx', node: 'R', meaning: '导数比没有极限，就断定原极限不存在', type: '错误反推' }
+  ]);
+
+  const own = (object, key) => Object.prototype.hasOwnProperty.call(object, key);
+  const sum = (items, key) => items.reduce((value, item) => value + item[key], 0);
+  const percent = (value, total) => total ? Math.round(value / total * 100) : 0;
+  const label = tag => {
+    const entry = ERRORS.find(item => item.tag === tag);
+    return entry ? entry.label : tag;
+  };
+  const nodeLabel = (module, id) => {
+    const entry = (NODES[module] || []).find(item => item.id === id);
+    return entry ? entry.label : id;
+  };
+  const caseLabel = id => own(CASES, id) ? CASES[id] : id;
+
+  function parseScore(value) {
+    const match = String(value || '').match(/^(\d+)\s*\/\s*(\d+)$/);
+    if (!match) return null;
+    const correct = Number(match[1]);
+    const total = Number(match[2]);
+    if (!Number.isSafeInteger(correct) || !Number.isSafeInteger(total) || total <= 0 || correct > total) return null;
+    return { correct, total };
+  }
+
+  function parseTags(value) {
+    return [...new Set(String(value || '').split(',').map(tag => tag.trim())
+      .filter(tag => tag && tag !== '-' && tag !== '无'))];
+  }
+
+  function parsePairs(value) {
+    const pairs = Object.create(null);
+    String(value || '').split(',').forEach(part => {
+      const separator = part.indexOf(':');
+      if (separator < 0) return;
+      const key = part.slice(0, separator).trim();
+      if (key) pairs[key] = part.slice(separator + 1).trim();
+    });
+    return pairs;
+  }
+
+  function nonnegativeInteger(value, fallback) {
+    const text = String(value === undefined ? '' : value).trim();
+    if (!/^\d+$/.test(text)) return fallback;
+    const result = Number(text);
+    return Number.isSafeInteger(result) ? result : fallback;
+  }
+
+  function parse(text) {
+    text = String(text || '');
+    const records = [];
+    const invalid = [];
+    const seen = new Set();
+    const duplicateByModule = { extremum: 0, lhopital: 0 };
+    const regex = /【汇总行】v1\|[^\n\r]+/g;
+    let duplicates = 0;
+    let anonymousCount = 0;
+    let extractedCount = 0;
+    let cursor = 0;
+    let lineNumber = 1;
+    let match;
+    while ((match = regex.exec(text))) {
+      extractedCount += 1;
+      lineNumber += (text.slice(cursor, match.index).match(/\r\n|\r|\n/g) || []).length;
+      cursor = match.index;
+      const raw = match[0];
+      const fields = Object.create(null);
+      raw.split('|').slice(1).forEach(part => {
+        const separator = part.indexOf('=');
+        if (separator < 0) return;
+        const key = part.slice(0, separator).trim();
+        if (key) fields[key] = part.slice(separator + 1).trim();
+      });
+      const module = fields['模块'] || '';
+      if (seen.has(raw)) {
+        duplicates += 1;
+        if (own(duplicateByModule, module)) duplicateByModule[module] += 1;
+        continue;
+      }
+      seen.add(raw);
+      const reasons = ['模块', '前测', '节点', '后测'].filter(key => !own(fields, key))
+        .map(key => '缺少' + key + '字段');
+      if (own(fields, '模块') && !own(MODULES, module)) reasons.push('模块必须为 extremum 或 lhopital');
+      if (reasons.length) {
+        invalid.push({ lineNumber, reason: reasons.join('；'), raw, module });
+        continue;
+      }
+      const originalName = (fields['学生'] || '').trim();
+      const anonymous = !originalName;
+      if (anonymous) anonymousCount += 1;
+      const name = originalName || '未署名 ' + anonymousCount;
+      const nodes = parsePairs(fields['节点']);
+      const flexible = parsePairs(fields['灵活']);
+      records.push({
+        raw, lineNumber, fields, module, name, originalName, anonymous,
+        studentId: anonymous ? module + ':anonymous:' + records.length : module + ':name:' + name,
+        session: fields['会话'] || '-', mode: fields['模式'] || '-',
+        caseId: fields['案例'] || '-', path: fields['路径'] || '-',
+        pre: fields['前测'], post: fields['后测'],
+        preScore: parseScore(fields['前测']), postScore: parseScore(fields['后测']),
+        errors: parseTags(fields['前测错因']), diagnosis: parseTags(fields['诊断']),
+        nodes, flexible,
+        releaseErrors: module === 'extremum' ? nonnegativeInteger(fields['误放行'], Object.values(flexible).filter(value => value === '误放行').length) : 0,
+        conservative: module === 'extremum' ? nonnegativeInteger(fields['保守回退'], Object.values(flexible).filter(value => value === '保守回退').length) : 0,
+        hasTrapField: own(fields, '陷阱误选'), trapValue: fields['陷阱误选'],
+        duration: fields['用时'] || '-'
+      });
+    }
+    return { records, invalid, duplicates, anonymousCount, extractedCount, duplicateByModule };
+  }
+
+  function trapResult(record) {
+    const trap = TRAPS.find(item => item.caseId === record.caseId);
+    const result = { errors: 0, clean: 0, legacyIndependent: 0, legacyNotIndependent: 0, legacyRecords: 0 };
+    if (record.module !== 'lhopital' || !trap) return result;
+    if (record.hasTrapField) {
+      result.errors = record.trapValue === '1' ? 1 : 0;
+      result.clean = record.trapValue === '0' ? 1 : 0;
+    } else {
+      result.legacyRecords = 1;
+      const state = record.nodes[trap.node];
+      result.legacyIndependent = state === '独' ? 1 : 0;
+      result.legacyNotIndependent = state === '提' || state === '巩' ? 1 : 0;
+    }
+    return result;
+  }
+
+  function trapDisplay(student) {
+    if (!student.legacyRecords) return String(student.trapErrors);
+    const inferred = '未独立 ' + student.legacyNotIndependent + '（推算）';
+    const directRounds = student.records.filter(record => record.hasTrapField && TRAPS.some(trap => trap.caseId === record.caseId)).length;
+    return directRounds ? student.trapErrors + '；' + inferred : inferred;
+  }
+
+  function mergeStudents(records) {
+    const groups = new Map();
+    records.forEach(record => {
+      if (!groups.has(record.studentId)) groups.set(record.studentId, []);
+      groups.get(record.studentId).push(record);
+    });
+    return [...groups.entries()].map(([id, rounds]) => {
+      const first = rounds[0];
+      const preRecord = rounds.find(record => record.pre !== '跳过');
+      const postRecord = [...rounds].reverse().find(record => record.post !== '-');
+      const weakNodes = [...new Set(rounds.flatMap(record => Object.keys(record.nodes).filter(node => record.nodes[node] === '巩')))];
+      const orderedNodes = (NODES[first.module] || []).map(node => node.id);
+      weakNodes.sort((a, b) => {
+        const aIndex = orderedNodes.indexOf(a);
+        const bIndex = orderedNodes.indexOf(b);
+        return (aIndex < 0 ? orderedNodes.length : aIndex) - (bIndex < 0 ? orderedNodes.length : bIndex);
+      });
+      const traps = rounds.map(trapResult);
+      const errors = preRecord ? preRecord.errors.slice() : [];
+      const preScore = preRecord ? preRecord.preScore : null;
+      const postScore = postRecord ? postRecord.postScore : null;
+      let canCalculateCannotJudge = null;
+      if (first.module === 'lhopital' && preScore && preScore.total === 7) {
+        canCalculateCannotJudge = errors.length > 0 && (7 - preScore.correct) - errors.length === 0;
+      }
+      const student = {
+        id, name: first.name, anonymous: first.anonymous, module: first.module,
+        records: rounds, rounds: rounds.length,
+        pre: preRecord ? preRecord.pre || '-' : '-', post: postRecord ? postRecord.post || '-' : '-',
+        preScore, postScore, errors, errorNames: errors.map(label), weakNodes,
+        weakNodeNames: weakNodes.map(node => nodeLabel(first.module, node)),
+        releaseErrors: sum(rounds, 'releaseErrors'), conservative: sum(rounds, 'conservative'),
+        trapErrors: sum(traps, 'errors'), trapClean: sum(traps, 'clean'),
+        legacyIndependent: sum(traps, 'legacyIndependent'), legacyNotIndependent: sum(traps, 'legacyNotIndependent'),
+        legacyRecords: sum(traps, 'legacyRecords'), canCalculateCannotJudge
+      };
+      student.trapDisplay = trapDisplay(student);
+      student.attention = Boolean((postScore && postScore.correct < postScore.total) || weakNodes.length || student.releaseErrors || student.trapErrors || student.legacyNotIndependent);
+      return student;
+    });
+  }
+
+  function aggregateScores(students, key) {
+    const scores = students.map(student => student[key]).filter(Boolean);
+    const correct = sum(scores, 'correct');
+    const total = sum(scores, 'total');
+    return { correct, total, students: scores.length, rate: total ? Math.round(correct / total * 100) : null };
+  }
+
+  function distribution(students, module) {
+    const counts = new Map();
+    students.forEach(student => student.errors.forEach(tag => counts.set(tag, (counts.get(tag) || 0) + 1)));
+    const configured = ERRORS.filter(error => error.module === module);
+    const order = configured.map(error => error.tag);
+    return [...counts.entries()].map(([tag, count]) => {
+      const definition = configured.find(error => error.tag === tag);
+      return {
+        tag, label: label(tag), node: definition ? definition.node : '',
+        caseId: definition ? definition.caseId : '', caseName: definition ? caseLabel(definition.caseId) : '',
+        count, percent: percent(count, students.length)
+      };
+    }).sort((a, b) => {
+      if (a.count !== b.count) return b.count - a.count;
+      const aIndex = order.indexOf(a.tag);
+      const bIndex = order.indexOf(b.tag);
+      return (aIndex < 0 ? order.length : aIndex) - (bIndex < 0 ? order.length : bIndex);
+    });
+  }
+
+  function suggestions(module) {
+    if (module.studentCount < 3) return ['记录较少，建议收集更多学生的汇总行后再看分布。'];
+    const result = [];
+    const top = module.distribution[0];
+    if (top && top.count) {
+      result.push(top.caseId
+        ? '建议课堂重点讲评：' + top.label + '（' + top.count + ' 人）。可用教师演示模式打开课件案例「' + top.caseName + '」讲解对应节点 ' + top.node + '。'
+        : '建议课堂重点讲评：' + top.label + '（' + top.count + ' 人）。该标签尚无预设案例，请结合学习记录核对。');
+    }
+    const weakest = module.nodeStats.reduce((best, node) => !best || node.consolidate > best.consolidate ? node : best, null);
+    if (weakest && weakest.consolidate > 0) result.push('训练中最常需要巩固的步骤：' + weakest.label + '（' + weakest.consolidate + ' 人次）。');
+    if (module.id === 'extremum' && module.releaseErrors > 0) {
+      const worst = module.flexibleStats.reduce((best, node) => !best || node.releaseErrors > best.releaseErrors ? node : best, null);
+      result.push('共有 ' + module.releaseErrors + ' 人次在条件不成立时直接下结论，' + (worst && worst.releaseErrors ? '集中在节点 ' + worst.id : '节点分布请核对原始记录') + '。');
+    }
+    if (module.id === 'lhopital' && module.trapErrors > 0) {
+      const worst = module.trapStats.reduce((best, trap) => !best || trap.errors > best.errors ? trap : best, null);
+      result.push('共有 ' + module.trapErrors + ' 人次在陷阱节点第一次就走了错路，最多出现在案例「' + worst.caseName + '」（' + worst.meaning + '）。');
+    }
+    return result.length ? result : ['当前记录中未发现集中的前测错因或需要巩固的节点，可结合课堂表现安排讲评。'];
+  }
+
+  function summarizeModule(records, id) {
+    const students = mergeStudents(records);
+    const nodeStats = NODES[id].map(node => {
+      let independent = 0;
+      let hinted = 0;
+      let consolidate = 0;
+      records.forEach(record => {
+        independent += record.nodes[node.id] === '独' ? 1 : 0;
+        hinted += record.nodes[node.id] === '提' ? 1 : 0;
+        consolidate += record.nodes[node.id] === '巩' ? 1 : 0;
+      });
+      return { ...node, independent, hinted, consolidate, total: independent + hinted + consolidate };
+    });
+    const flexibleStats = ['A', 'B', 'C'].map(node => ({
+      id: node, label: nodeLabel('extremum', node),
+      releaseErrors: records.filter(record => record.flexible[node] === '误放行').length,
+      conservative: records.filter(record => record.flexible[node] === '保守回退').length
+    }));
+    const trapStats = TRAPS.map(trap => {
+      const caseRecords = records.filter(record => record.caseId === trap.caseId);
+      const outcomes = caseRecords.map(trapResult);
+      return {
+        ...trap, caseName: caseLabel(trap.caseId), nodeLabel: nodeLabel('lhopital', trap.node),
+        practice: caseRecords.length, errors: sum(outcomes, 'errors'), clean: sum(outcomes, 'clean'),
+        legacyIndependent: sum(outcomes, 'legacyIndependent'), legacyNotIndependent: sum(outcomes, 'legacyNotIndependent'),
+        legacyRecords: sum(outcomes, 'legacyRecords')
+      };
+    });
+    const canCalculateCannotJudge = students.filter(student => student.canCalculateCannotJudge === true).length;
+    const eligibleCount = students.filter(student => student.canCalculateCannotJudge !== null).length;
+    const model = {
+      id, label: MODULES[id], records, students, studentCount: students.length, rounds: records.length,
+      autonomous: records.filter(record => record.mode === '自主').length,
+      collaborative: records.filter(record => record.mode === '协作').length,
+      anonymousCount: records.filter(record => record.anonymous).length,
+      pre: aggregateScores(students, 'preScore'), post: aggregateScores(students, 'postScore'),
+      distribution: distribution(students, id), nodeStats,
+      flexibleStats: id === 'extremum' ? flexibleStats : [], trapStats: id === 'lhopital' ? trapStats : [],
+      releaseErrors: sum(students, 'releaseErrors'), conservative: sum(students, 'conservative'),
+      trapErrors: sum(students, 'trapErrors'), trapClean: sum(students, 'trapClean'),
+      legacyIndependent: sum(students, 'legacyIndependent'), legacyNotIndependent: sum(students, 'legacyNotIndependent'),
+      legacyRecords: sum(students, 'legacyRecords'), canCalculateCannotJudge,
+      canCalculatePercent: percent(canCalculateCannotJudge, students.length), eligibleCount,
+      excludedCount: students.length - eligibleCount, attention: students.filter(student => student.attention)
+    };
+    model.suggestions = suggestions(model);
+    return model;
+  }
+
+  function summarizeCross(modules) {
+    const groups = new Map();
+    ['extremum', 'lhopital'].forEach(module => modules[module].students.forEach(student => {
+      const key = student.anonymous ? student.id : 'name:' + student.name;
+      if (!groups.has(key)) groups.set(key, { id: key, name: student.name, extremum: null, lhopital: null, bothIssue: false });
+      groups.get(key)[module] = student;
+    }));
+    const students = [...groups.values()].map(student => {
+      const extremumIssue = student.extremum && (student.extremum.errors.length > 0 || student.extremum.releaseErrors > 0);
+      const lhopitalIssue = student.lhopital && (student.lhopital.canCalculateCannotJudge === true || student.lhopital.trapErrors > 0 || student.lhopital.legacyNotIndependent > 0);
+      return { ...student, bothIssue: Boolean(extremumIssue && lhopitalIssue) };
+    });
+    return {
+      students, both: students.filter(student => student.extremum && student.lhopital).length,
+      onlyExtremum: students.filter(student => student.extremum && !student.lhopital).length,
+      onlyLhopital: students.filter(student => !student.extremum && student.lhopital).length,
+      bothIssue: students.filter(student => student.bothIssue).length
+    };
+  }
+
+  function analyze(text) {
+    const parsed = parse(text);
+    const modules = {
+      extremum: summarizeModule(parsed.records.filter(record => record.module === 'extremum'), 'extremum'),
+      lhopital: summarizeModule(parsed.records.filter(record => record.module === 'lhopital'), 'lhopital')
+    };
+    return { parsed, modules, cross: summarizeCross(modules) };
+  }
+
+  function csv(headers, rows) {
+    // Prevent spreadsheet formula execution while preserving ordinary missing-value dashes.
+    const quote = value => {
+      let text = value === null || value === undefined ? '' : String(value);
+      if (text !== '-' && /^[\s]*[=+@-]/.test(text)) text = "'" + text;
+      return '"' + text.replace(/"/g, '""') + '"';
+    };
+    return '\uFEFF' + [headers, ...rows].map(row => row.map(quote).join(',')).join('\r\n');
+  }
+
+  function moduleCSV(module, students) {
+    const isLhopital = module.id === 'lhopital';
+    const headers = ['学生', '前测', '前测错因', '后测', '需要巩固的节点', isLhopital ? '陷阱误选次数' : '误放行次数', '练习轮次'];
+    if (isLhopital) headers.push('旧版未独立推算次数');
+    const rows = (students || module.students).map(student => {
+      const row = [student.name, student.pre, student.errorNames.join('、') || '无', student.post,
+        student.weakNodes.map(node => node + ' · ' + nodeLabel(module.id, node)).join('、') || '无',
+        isLhopital ? student.trapErrors : student.releaseErrors, student.rounds];
+      if (isLhopital) row.push(student.legacyNotIndependent);
+      return row;
+    });
+    return csv(headers, rows);
+  }
+
+  function crossCSV(cross, students) {
+    const headers = ['学生', '最值·前测', '最值·前测错因', '最值·后测', '最值·需巩固节点',
+      '洛必达·前测', '洛必达·会算不会判', '洛必达·前测错因', '洛必达·后测',
+      '条件误判·最值误放行', '条件误判·洛必达陷阱误选', '两模块都有条件判断问题'];
+    const rows = (students || cross.students).map(student => {
+      const e = student.extremum;
+      const l = student.lhopital;
+      return [student.name,
+        e ? e.pre : '未完成', e ? e.errorNames.join('、') || '无' : '未完成', e ? e.post : '未完成', e ? e.weakNodeNames.join('、') || '无' : '未完成',
+        l ? l.pre : '未完成', l ? l.canCalculateCannotJudge === null ? '不计入' : l.canCalculateCannotJudge ? '是' : '否' : '未完成',
+        l ? l.errorNames.join('、') || '无' : '未完成', l ? l.post : '未完成',
+        e ? e.releaseErrors : '未完成', l ? l.trapDisplay : '未完成', student.bothIssue ? '是' : '否'];
+    });
+    return csv(headers, rows);
+  }
+
+  function summaryText(module) {
+    const rate = score => score.rate === null ? '暂无' : score.rate + '%（' + score.correct + '/' + score.total + '，' + score.students + ' 人）';
+    const lines = ['先判后算 · 班级学情汇总（教师端）', module.label,
+      '学生 ' + module.studentCount + ' 人；练习 ' + module.rounds + ' 轮（自主 ' + module.autonomous + ' 轮／协作 ' + module.collaborative + ' 轮）',
+      '前测正确率：' + rate(module.pre), '后测正确率：' + rate(module.post), '前测与后测题目不同，正确率分别展示。'];
+    if (module.id === 'lhopital') {
+      lines.push('会算不会判：' + module.canCalculateCannotJudge + ' 人（占本模块学生 ' + module.canCalculatePercent + '%）；有 7 题有效前测 ' + module.eligibleCount + ' 人，其余 ' + module.excludedCount + ' 人不计入此项。');
+    }
+    lines.push('', '前测错因分布（每名学生首条非跳过的前测；百分比以本模块学生人数为分母）：');
+    if (!module.distribution.length) lines.push('暂无前测错因。');
+    module.distribution.forEach(item => lines.push(item.label + ' · ' + item.count + ' 人 · ' + item.percent + '%'));
+    if (module.id === 'extremum') {
+      lines.push('', '条件误判：误放行 ' + module.releaseErrors + ' 人次；保守回退 ' + module.conservative + ' 人次（不计错）。');
+      module.flexibleStats.forEach(item => lines.push(item.id + ' · ' + item.label + '：误放行 ' + item.releaseErrors + ' 人次／保守回退 ' + item.conservative + ' 人次'));
+    } else {
+      lines.push('', '陷阱误选 ' + module.trapErrors + ' 人次；陷阱节点未误选 ' + module.trapClean + ' 人次。');
+      module.trapStats.forEach(item => lines.push(item.caseName + '｜' + item.node + ' · ' + item.nodeLabel + '｜' + item.meaning + '｜练习 ' + item.practice + ' 人次｜陷阱误选 ' + item.errors + '｜未误选 ' + item.clean));
+      if (module.legacyRecords) lines.push('旧版推算：陷阱节点独立判断正确 ' + module.legacyIndependent + ' 人次；陷阱节点未能独立判断 ' + module.legacyNotIndependent + ' 人次。其中 ' + module.legacyRecords + ' 条为旧版记录，只能推算“陷阱节点未能独立判断”，不等于陷阱误选。');
+    }
+    lines.push('', '讲评建议：', ...module.suggestions);
+    return lines.join('\n');
+  }
+
+  root.TeacherSummary = Object.freeze({
+    analyze, parse, parseScore, parseTags, parsePairs, mergeStudents, summarizeModule, summarizeCross,
+    csv, moduleCSV, crossCSV, summaryText, label, nodeLabel, caseLabel,
+    MODULES, ERRORS, NODES, CASES, TRAPS
+  });
+})(typeof window === 'object' ? window : globalThis);
+
+/* 仅含虚构学号。预期值独立于统计引擎，供演示与验收核对。 */
+window.TEACHER_SAMPLE_TEXT = `教师收集的学习记录（以下全部为虚构示例）
+最值判断：12 名学生，S02、S09 各有两轮；保留粘贴顺序。
+【汇总行】v1|模块=extremum|学生=S01|会话=sdemo01|模式=自主|案例=trail|路径=灵活|前测=3/4|前测错因=flexible-overgeneralization|诊断=flexible-overgeneralization|节点=1:独,2:独,4:提,A:独,B:独,C:提|灵活=A:正确放行,B:正确放行,C:误放行|条件不成立=1|误放行=1|保守回退=0|后测=3/4|用时=14分
+【汇总行】v1|模块=extremum|学生=S02|会话=sdemo02|模式=自主|案例=trail|路径=灵活|前测=3/4|前测错因=flexible-overgeneralization|诊断=flexible-overgeneralization|节点=1:独,2:独,4:独,A:独,B:独,C:巩|灵活=A:正确放行,B:正确放行,C:误放行|条件不成立=1|误放行=1|保守回退=0|后测=2/4|用时=12分
+【汇总行】v1|模块=extremum|学生=S03|会话=sdemo03|模式=协作|案例=trail|路径=灵活|前测=3/4|前测错因=flexible-overgeneralization|诊断=flexible-overgeneralization|节点=1:提,2:独,4:独,A:独,B:独,C:巩|灵活=A:正确放行,B:正确放行,C:误放行|条件不成立=1|误放行=1|保守回退=0|后测=3/4|用时=16分
+【汇总行】v1|模块=extremum|学生=S04|会话=sdemo04|模式=自主|案例=transport|路径=灵活|前测=3/4|前测错因=flexible-overgeneralization|诊断=flexible-overgeneralization|节点=1:独,2:独,4:独,A:独,B:独,C:提|灵活=A:正确放行,B:正确放行,C:保守回退|条件不成立=0|误放行=0|保守回退=1|后测=3/4|用时=13分
+【汇总行】v1|模块=extremum|学生=S05|会话=sdemo05|模式=自主|案例=container|路径=标准|前测=4/4|前测错因=无|诊断=无|节点=1:独,2:独,4:独|灵活=无|条件不成立=0|误放行=0|保守回退=0|后测=4/4|用时=10分
+【汇总行】v1|模块=extremum|学生=S06|会话=sdemo06|模式=自主|案例=cylinder|路径=标准|前测=4/4|前测错因=无|诊断=无|节点=1:独,2:独,4:独|灵活=无|条件不成立=0|误放行=0|保守回退=0|后测=4/4|用时=9分
+【汇总行】v1|模块=extremum|学生=S07|会话=sdemo07|模式=协作|案例=container|路径=标准|前测=4/4|前测错因=无|诊断=无|节点=1:独,2:独,4:独|灵活=无|条件不成立=0|误放行=0|保守回退=0|后测=4/4|用时=11分
+【汇总行】v1|模块=extremum|学生=S08|会话=sdemo08|模式=自主|案例=wire|路径=灵活|前测=3/4|前测错因=endpoint-omission|诊断=endpoint-omission|节点=1:独,2:独,4:独,A:提|灵活=A:误放行,B:未到,C:未到|条件不成立=1|误放行=1|保守回退=0|后测=3/4|用时=12分
+【汇总行】v1|模块=extremum|学生=S09|会话=sdemo09|模式=自主|案例=container|路径=标准|前测=3/4|前测错因=derivative-filter|诊断=derivative-filter|节点=1:独,2:巩,4:提|灵活=无|条件不成立=0|误放行=0|保守回退=0|后测=3/4|用时=15分
+【汇总行】v1|模块=extremum|学生=S10|会话=sdemo10|模式=协作|案例=reservoir|路径=灵活|前测=3/4|前测错因=non-differentiable|诊断=non-differentiable|节点=1:独,2:独,4:独,A:独,B:巩|灵活=A:正确放行,B:正确回退,C:未到|条件不成立=1|误放行=0|保守回退=0|后测=3/4|用时=14分
+【汇总行】v1|模块=extremum|学生=S11|会话=sdemo11|模式=自主|案例=trail|路径=灵活|前测=3/4|前测错因=flexible-overgeneralization|诊断=flexible-overgeneralization|节点=1:独,2:独,4:提,A:独,B:独,C:巩|灵活=A:正确放行,B:正确放行,C:正确回退|条件不成立=1|误放行=0|保守回退=0|后测=3/4|用时=16分
+【汇总行】v1|模块=extremum|学生=S12|会话=sdemo12|模式=自主|案例=wire|路径=标准|前测=3/4|前测错因=endpoint-omission|诊断=endpoint-omission|节点=1:独,2:提,4:独|灵活=无|条件不成立=0|误放行=0|保守回退=0|后测=4/4|用时=10分
+【汇总行】v1|模块=extremum|学生=S02|会话=sdemo13|模式=自主|案例=trail|路径=灵活|前测=跳过|前测错因=-|诊断=flexible-overgeneralization|节点=1:独,2:独,4:独,A:独,B:独,C:独|灵活=A:正确放行,B:正确放行,C:正确回退|条件不成立=1|误放行=0|保守回退=0|后测=4/4|用时=8分
+【汇总行】v1|模块=extremum|学生=S09|会话=sdemo14|模式=自主|案例=container|路径=标准|前测=跳过|前测错因=-|诊断=derivative-filter|节点=1:独,2:独,4:独|灵活=无|条件不成立=0|误放行=0|保守回退=0|后测=4/4|用时=9分
+洛必达法则：S01～S10、S13、S14；S03、S04 为旧版记录。
+【汇总行】v1|模块=lhopital|学生=S01|会话=sdemo21|模式=自主|案例=x-sinx|路径=-|前测=6/7|前测错因=lh-reverse-inference|诊断=lh-reverse-inference|节点=N1:独,N2:独,N3:独,N4:提,R:巩|灵活=-|条件不成立=-|误放行=-|保守回退=-|后测=3/4|用时=9分|陷阱误选=1
+【汇总行】v1|模块=lhopital|学生=S02|会话=sdemo22|模式=自主|案例=not-indet|路径=-|前测=6/7|前测错因=lh-type-check|诊断=lh-type-check|节点=N1:独,N2:独,N3:提|灵活=-|条件不成立=-|误放行=-|保守回退=-|后测=4/4|用时=8分|陷阱误选=1
+【汇总行】v1|模块=lhopital|学生=S03|会话=sdemo23|模式=协作|案例=recheck|路径=-|前测=5/7|前测错因=lh-type-check,lh-recheck|诊断=lh-type-check,lh-recheck|节点=N1:提,N2:独,N3:独,N4:巩|灵活=-|条件不成立=-|误放行=-|保守回退=-|后测=3/4|用时=11分
+【汇总行】v1|模块=lhopital|学生=S04|会话=sdemo24|模式=自主|案例=x-sinx|路径=-|前测=5/7|前测错因=lh-type-check,lh-reverse-inference|诊断=lh-type-check,lh-reverse-inference|节点=N1:独,N2:独,N3:独,N4:独,R:提|灵活=-|条件不成立=-|误放行=-|保守回退=-|后测=4/4|用时=10分
+【汇总行】v1|模块=lhopital|学生=S05|会话=sdemo25|模式=自主|案例=xlnx|路径=-|前测=6/7|前测错因=lh-transform|诊断=lh-transform|节点=N1:独,N2:独,N3:提,N4:独|灵活=-|条件不成立=-|误放行=-|保守回退=-|后测=3/4|用时=9分|陷阱误选=0
+【汇总行】v1|模块=lhopital|学生=S06|会话=sdemo26|模式=自主|案例=not-indet|路径=-|前测=6/7|前测错因=lh-type-check|诊断=lh-type-check|节点=N1:独,N2:独,N3:独|灵活=-|条件不成立=-|误放行=-|保守回退=-|后测=4/4|用时=7分|陷阱误选=0
+【汇总行】v1|模块=lhopital|学生=S07|会话=sdemo27|模式=协作|案例=x-sinx|路径=-|前测=6/7|前测错因=lh-reverse-inference|诊断=lh-reverse-inference|节点=N1:独,N2:独,N3:独,N4:独,R:独|灵活=-|条件不成立=-|误放行=-|保守回退=-|后测=4/4|用时=8分|陷阱误选=0
+【汇总行】v1|模块=lhopital|学生=S08|会话=sdemo28|模式=自主|案例=not-indet|路径=-|前测=5/7|前测错因=lh-type-check|诊断=lh-type-check|节点=N1:提,N2:独,N3:独|灵活=-|条件不成立=-|误放行=-|保守回退=-|后测=3/4|用时=9分|陷阱误选=0
+【汇总行】v1|模块=lhopital|学生=S09|会话=sdemo29|模式=自主|案例=recheck|路径=-|前测=4/7|前测错因=lh-type-check,lh-reverse-inference|诊断=lh-type-check,lh-reverse-inference|节点=N1:巩,N2:独,N3:独,N4:独|灵活=-|条件不成立=-|误放行=-|保守回退=-|后测=2/4|用时=12分|陷阱误选=0
+【汇总行】v1|模块=lhopital|学生=S10|会话=sdemo30|模式=自主|案例=exp-basic|路径=-|前测=7/7|前测错因=无|诊断=无|节点=N1:独,N2:独,N3:独,N4:独|灵活=-|条件不成立=-|误放行=-|保守回退=-|后测=4/4|用时=6分|陷阱误选=-
+【汇总行】v1|模块=lhopital|学生=S13|会话=sdemo33|模式=协作|案例=xlnx|路径=-|前测=7/7|前测错因=无|诊断=无|节点=N1:独,N2:独,N3:巩,N4:独|灵活=-|条件不成立=-|误放行=-|保守回退=-|后测=3/4|用时=10分|陷阱误选=1
+【汇总行】v1|模块=lhopital|学生=S14|会话=sdemo34|模式=自主|案例=recheck|路径=-|前测=7/7|前测错因=无|诊断=无|节点=N1:独,N2:独,N3:独,N4:提|灵活=-|条件不成立=-|误放行=-|保守回退=-|后测=4/4|用时=8分|陷阱误选=0
+下面一条缺少节点字段，应提示无效：
+【汇总行】v1|模块=extremum|学生=S12|会话=sdemo-invalid|模式=自主|案例=wire|路径=标准|前测=3/4|前测错因=endpoint-omission|诊断=endpoint-omission|灵活=无|条件不成立=0|误放行=0|保守回退=0|后测=4/4|用时=10分
+下面一条与最值 S01 完全相同，应去重：
+【汇总行】v1|模块=extremum|学生=S01|会话=sdemo01|模式=自主|案例=trail|路径=灵活|前测=3/4|前测错因=flexible-overgeneralization|诊断=flexible-overgeneralization|节点=1:独,2:独,4:提,A:独,B:独,C:提|灵活=A:正确放行,B:正确放行,C:误放行|条件不成立=1|误放行=1|保守回退=0|后测=3/4|用时=14分`;
+
+window.TEACHER_SAMPLE_EXPECTED = {
+  validRecords: 26, invalidRecords: 1, duplicateRecords: 1, unnamedRecords: 0,
+  extremum: {
+    students: 12, rounds: 14, autonomous: 11, collaborative: 3,
+    preCorrect: 39, preTotal: 48, prePercent: 81,
+    postCorrect: 42, postTotal: 48, postPercent: 88,
+    errors: { 'endpoint-omission': 2, 'derivative-filter': 1, 'non-differentiable': 1, 'flexible-overgeneralization': 5 },
+    falseReleases: 4, conservativeReturns: 1,
+    falseReleaseNodes: { A: 1, B: 0, C: 3 },
+    conservativeReturnNodes: { A: 0, B: 0, C: 1 },
+    repeatStudents: ['S02', 'S09']
+  },
+  lhopital: {
+    students: 12, rounds: 12, autonomous: 9, collaborative: 3,
+    preCorrect: 70, preTotal: 84, prePercent: 83,
+    postCorrect: 41, postTotal: 48, postPercent: 85,
+    canCalculateCannotJudge: 7, canCalculateCannotJudgePercent: 58,
+    canCalculateCannotJudgeStudents: ['S01','S02','S03','S04','S05','S06','S07'],
+    procedureErrorsStudents: ['S08','S09'], preAllCorrectStudents: ['S10','S13','S14'],
+    errors: { 'lh-type-check': 6, 'lh-transform': 1, 'lh-recheck': 1, 'lh-reverse-inference': 4 },
+    trapWrong: 3, trapCorrect: 6, legacyRecords: 2, legacyNotIndependent: 2, legacyIndependent: 0,
+    trapCases: {
+      'not-indet': { practices: 3, wrong: 1, correct: 2, legacyNotIndependent: 0 },
+      'xlnx': { practices: 2, wrong: 1, correct: 1, legacyNotIndependent: 0 },
+      'recheck': { practices: 3, wrong: 0, correct: 2, legacyNotIndependent: 1 },
+      'x-sinx': { practices: 3, wrong: 1, correct: 1, legacyNotIndependent: 1 }
+    }
+  },
+  cross: { bothComplete: 10, onlyExtremum: 2, onlyLhopital: 2, students: 14, bothIssue: 4, bothIssueStudents: ['S01','S02','S03','S04'] }
+};
+
+(() => {
+'use strict';
+const API=window.TeacherSummary, $=id=>document.getElementById(id);
+let model=null,active='extremum',isDemo=false,filters={extremum:'',lhopital:''},onlyIssues=false;
+const sorts={extremum:{key:'name',asc:true},lhopital:{key:'name',asc:true},cross:{key:'name',asc:true}};
+function el(tag,cls,text){const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=String(text);return n;}
+function add(parent,...children){for(const c of children)if(c)parent.append(c);return parent;}
+function note(text){return el('p','method',text);}
+function card(label,value,unit='',sub=''){const c=el('div','metric'),v=el('p','metric-value',value);if(unit)v.append(el('span','unit',unit));add(c,el('p','metric-label',label),v);if(sub)c.append(el('p','metric-sub',sub));return c;}
+function section(title,description){const c=el('section','panel'),head=el('div','section-head');head.append(el('h2','',title));if(description)head.append(el('span','note',description));c.append(head);return c;}
+function blank(text){return el('p','blank',text);}
+const scoreValue=s=>{const m=/^(\d+)\/(\d+)$/.exec(s||'');return m&&+m[2]?+m[1]/+m[2]:-1;};
+function sorted(rows,keyFns,sort){return [...rows].sort((a,b)=>{let x=keyFns[sort.key](a),y=keyFns[sort.key](b);let result=typeof x==='number'&&typeof y==='number'?x-y:String(x??'').localeCompare(String(y??''),'zh-CN',{numeric:true});if(!result)result=a.name.localeCompare(b.name,'zh-CN',{numeric:true});return sort.asc?result:-result;});}
+function sortHead(text,key,scope){const th=el('th'),state=sorts[scope],b=el('button','table-sort',text+(state.key===key?(state.asc?' ↑':' ↓'):' ↕'));b.type='button';b.setAttribute('aria-label',text+'，点击排序');th.setAttribute('scope','col');th.setAttribute('aria-sort',state.key===key?(state.asc?'ascending':'descending'):'none');b.addEventListener('click',()=>{if(state.key===key)state.asc=!state.asc;else{state.key=key;state.asc=true;}render();});th.append(b);return th;}
+function cell(text,cls){return el('td',cls,text);}
+function createTable(headers,rows,rowRenderer,cls=''){const wrap=el('div','table-wrap'),table=el('table',cls),head=el('thead'),tr=el('tr'),body=el('tbody');for(const h of headers){if(typeof h==='string'){const th=el('th','',h);th.scope='col';tr.append(th);}else tr.append(h);}head.append(tr);for(const r of rows)body.append(rowRenderer(r));if(!rows.length){const td=cell('暂无符合条件的记录');td.colSpan=headers.length;body.append(add(el('tr'),td));}add(table,head,body);wrap.append(table);wrap.tabIndex=0;wrap.setAttribute('aria-label','可横向滚动的数据表格');return wrap;}
+function parseBar(m){const p=model.parsed,b=el('div','parse-bar');for(const s of [`有效记录 ${m.rounds} 条`,`学生 ${m.studentCount} 人`,`无效行 ${p.invalid.length} 条`,`去重 ${p.duplicates} 条`,`未署名 ${m.anonymousCount} 条`,`自主 ${m.autonomous} 轮／协作 ${m.collaborative} 轮`])b.append(el('span','',s));b.append(el('span','','无效行与去重数为本次粘贴整体统计'));if(p.invalid.length){const d=el('details'),list=el('ul');d.append(el('summary','',`查看 ${p.invalid.length} 条无效行及原因`));for(const i of p.invalid)list.append(el('li','',`第 ${i.lineNumber} 行：${i.reason}`));d.append(list);b.append(d);}if(p.anonymousCount)b.append(el('span','',`有 ${p.anonymousCount} 条记录未填写姓名或学号，均单独统计。`));return b;}
+function renderDistribution(m){const c=section('前测错因分布','每名学生取第一条非“跳过”的前测 · 单位：人');if(!m.distribution.length)c.append(blank('暂无前测错因记录'));else{const bars=el('div','bars');for(const item of m.distribution){const row=el('div','bar-row'),track=el('div','bar-track'),fill=el('div','bar-fill');fill.style.width=item.percent+'%';track.append(fill);add(row,el('span','bar-label',item.label),track,el('span','bar-count',`${item.count} 人 · ${item.percent}%`));row.setAttribute('aria-label',`${item.label} · ${item.count} 人 · ${item.percent}%`);bars.append(row);}c.append(bars);}c.append(note('同一学生可有多个错因，比例不相加。未知标签按原文显示。'));return c;}
+function renderNodes(m){const c=section('节点掌握情况','全部有效轮次累计 · 单位：人次');c.append(createTable(['节点','独立掌握','提示后掌握','需要巩固'],m.nodeStats,n=>{const tr=el('tr');tr.append(cell(`${n.id} · ${n.label}`));for(const [k,warm] of [['independent',false],['hinted',false],['consolidate',true]]){const t=cell(n[k],'heat'+(warm?' warm-text':'')),ratio=n.total?n[k]/n.total:0;t.style.backgroundColor=warm?`rgba(215,139,70,${.04+ratio*.32})`:`rgba(63,121,174,${.03+ratio*.23})`;tr.append(t);}return tr;}));return c;}
+function renderFlex(m){const c=section('条件误判统计','最值灵活判断链 · 单位：人次'),grid=el('div','flex-grid');for(const s of m.flexibleStats){const item=el('div','flex-item');add(item,el('h3','',s.id+' · '+s.label),el('p','warm-text',`误放行 ${s.releaseErrors} 人次`),el('p','',`保守回退 ${s.conservative} 人次`));grid.append(item);}c.append(grid);c.append(note('误放行＝条件不成立却直接下结论；保守回退＝条件成立却稳妥回到标准流程，不计错。'));return c;}
+function renderTraps(m){const c=section('陷阱误选统计',`陷阱误选 ${m.trapErrors} 人次 · 直接记录`);c.append(createTable(['案例名','陷阱节点','含义','练习（人次）','陷阱误选','未误选'],m.trapStats,t=>add(el('tr'),cell(t.caseName,'wrap'),cell(`${t.node} · ${t.nodeLabel}`),cell(t.meaning,'wrap'),cell(t.practice),cell(t.errors,'warm-text'),cell(t.clean))));c.append(note('陷阱误选＝学生在这一步第一次就选了红色虚线那条错路，由课件直接记录。'));c.append(note('“未到”“-”不计入误选或未误选；基础正例不统计。练习人次包含未到陷阱节点与旧版记录。'));if(m.legacyRecords){const b=el('div','legacy-box');add(b,el('h3','legacy',`旧版推算：陷阱节点未能独立判断 ${m.legacyNotIndependent} 人次 · 独立判断正确 ${m.legacyIndependent} 人次`));const list=el('div','legacy-list');for(const t of m.trapStats.filter(x=>x.legacyRecords))list.append(el('span','legacy',`${t.caseName}：未独立 ${t.legacyNotIndependent}／独立 ${t.legacyIndependent}`));b.append(list);b.append(note(`其中 ${m.legacyRecords} 条为旧版记录，只能推算“陷阱节点未能独立判断”，不等于陷阱误选。`));c.append(b);}return c;}
+const join=a=>a&&a.length?a.join('、'):'无';
+function studentHeaders(m,sortable){const names=['学生','前测','前测错因','后测','需要巩固的节点',m.id==='extremum'?'误放行次数':'陷阱误选次数','练习轮次'];const keys=['name','pre','errors','post','weak','issue','rounds'];if(m.id==='lhopital'){names.push('旧版未独立推算次数');keys.push('legacy');}return names.map((n,i)=>sortable?sortHead(n,keys[i],m.id):n);}
+function studentRow(s,m){const tr=el('tr');add(tr,cell(s.name,'student-name'),cell(s.pre||'-'),cell(join(s.errorNames),'wrap'),cell(s.post||'-'),cell(s.weakNodes.map(n=>n+' · '+API.nodeLabel(m.id,n)).join('、')||'无','wrap'),cell(m.id==='extremum'?s.releaseErrors:s.trapErrors,'warm-text'),cell(s.rounds));if(m.id==='lhopital')tr.append(cell(s.legacyNotIndependent,'legacy'));return tr;}
+function moduleRows(m){const rows=m.students.filter(s=>!filters[m.id]||s.errors.includes(filters[m.id]));return sorted(rows,{name:s=>s.name,pre:s=>scoreValue(s.pre),errors:s=>join(s.errorNames),post:s=>scoreValue(s.post),weak:s=>join(s.weakNodeNames),issue:s=>m.id==='extremum'?s.releaseErrors:s.trapErrors,legacy:s=>s.legacyNotIndependent,rounds:s=>s.rounds},sorts[m.id]);}
+function renderStudents(m){const nodes=[];let c=section('需要关注的学生',`${m.attention.length} 人`);c.append(createTable(studentHeaders(m,false),m.attention,s=>studentRow(s,m)));c.append(note(m.id==='extremum'?'关注条件：后测未全对、任一节点需要巩固，或有误放行。':'关注条件：后测未全对、任一节点需要巩固，或有陷阱误选／旧版陷阱节点未能独立判断。'));nodes.push(c);c=section('学生明细表','点击表头可排序');const controls=el('div','controls'),label=el('label','','前测错因筛选'),select=el('select');select.id='error-filter';label.htmlFor=select.id;select.append(el('option','','全部学生'));select.firstChild.value='';for(const d of m.distribution){const option=el('option','',d.label);option.value=d.tag;select.append(option);}select.value=filters[m.id];select.addEventListener('change',()=>{filters[m.id]=select.value;render();});add(controls,label,select,el('span','note',`显示 ${moduleRows(m).length}／${m.studentCount} 人`));c.querySelector('.section-head').append(controls);c.append(createTable(studentHeaders(m,true),moduleRows(m),s=>studentRow(s,m)));c.append(note('前测取第一条非“跳过”记录，后测取最后一条非“-”记录；需巩固节点与条件判断次数按全部轮次累计。'));nodes.push(c);return nodes;}
+function download(text,filename){const blob=new Blob([text],{type:'text/csv;charset=utf-8;'}),url=URL.createObjectURL(blob),a=el('a');a.href=url;a.download=filename;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+async function copySummary(m,status,fallback){const text=API.summaryText(m);try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);status.textContent='统计摘要已复制。';return;}}catch(_){}const area=el('textarea','readonly-copy');area.value=text;area.readOnly=true;area.setAttribute('aria-label','统计摘要，可手动复制');fallback.replaceChildren(area);area.select();let ok=false;try{ok=document.execCommand('copy');}catch(_){}status.textContent=ok?'统计摘要已复制。':'浏览器限制自动复制，请在下方选中摘要后复制。';if(ok)fallback.replaceChildren();}
+function renderModule(m){const parent=$('module-panel');parent.append(parseBar(m));if(!m.rounds){const c=section(m.label);c.append(blank('暂无该模块记录'));parent.append(c);return;}
+ const metrics=el('div','metrics');add(metrics,card('学生人数',m.studentCount,'人'),card('前测正确率',m.pre.total?m.pre.rate+'%':'—','',`${m.pre.students} 人 · ${m.pre.correct}/${m.pre.total} 题`),card('后测正确率',m.post.total?m.post.rate+'%':'—','',`${m.post.students} 人 · ${m.post.correct}/${m.post.total} 题`),card('练习总轮次',m.rounds,'轮'));parent.append(metrics);
+ if(m.id==='lhopital'){const c=el('div','spotlight');add(c,el('strong','',`会算不会判：${m.canCalculateCannotJudge} 人（占 ${m.canCalculatePercent}%）`),el('p','','求导题全对，但至少有一道条件题没有先检验就用了法则。'),el('p','num-tip',`比例以本模块 ${m.studentCount} 名学生为分母；仅 7 题有效前测的 ${m.eligibleCount} 人用于判定，其余 ${m.excludedCount} 人不计入此项。`));parent.append(c);}
+ parent.append(renderDistribution(m));const method=el('p','cross-note','前测与后测题目不同，正确率分别按答对数之和 ÷ 总题数之和计算，仅并列展示。');parent.append(method);parent.append(renderNodes(m),m.id==='extremum'?renderFlex(m):renderTraps(m));const c=section('讲评建议','固定规则生成');const advice=el('div','advice');for(const p of m.suggestions)advice.append(el('p','',p));c.append(advice);parent.append(c,...renderStudents(m));
+ const exp=section('导出'),row=el('div','export-row'),copy=el('button','','复制统计摘要'),csv=el('button','','下载 CSV'),status=el('p','live-status'),fallback=el('div');status.setAttribute('role','status');copy.addEventListener('click',()=>copySummary(m,status,fallback));csv.addEventListener('click',()=>{download(API.moduleCSV(m,moduleRows(m)),`班级学情-${m.id==='extremum'?'最值':'洛必达'}.csv`);status.textContent='CSV 已生成（包含当前筛选及排序结果）。';});add(row,copy,csv,el('small','','CSV 使用 UTF-8 BOM 编码，适合 Excel 打开。'));add(exp,row,status,fallback);parent.append(exp);
+}
+function trapCell(s){const td=cell('');if(!s){td.textContent='未完成';return td;}if(s.legacyRecords){const marker=s.trapDisplay.indexOf('未独立');td.append(document.createTextNode(s.trapDisplay.slice(0,marker)));td.append(el('span','legacy',s.trapDisplay.slice(marker)));}else td.textContent=s.trapErrors;return td;}
+function crossValue(s,module,fn,empty='未完成'){return s[module]?fn(s[module]):empty;}
+function crossRows(){return sorted(model.cross.students.filter(s=>!onlyIssues||s.bothIssue),{name:s=>s.name,ePre:s=>crossValue(s,'extremum',x=>scoreValue(x.pre),-1),eErrors:s=>crossValue(s,'extremum',x=>join(x.errorNames)),ePost:s=>crossValue(s,'extremum',x=>scoreValue(x.post),-1),eWeak:s=>crossValue(s,'extremum',x=>join(x.weakNodeNames)),lPre:s=>crossValue(s,'lhopital',x=>scoreValue(x.pre),-1),lCan:s=>crossValue(s,'lhopital',x=>x.canCalculateCannotJudge===true?1:x.canCalculateCannotJudge===false?0:-1,-1),lErrors:s=>crossValue(s,'lhopital',x=>join(x.errorNames)),lPost:s=>crossValue(s,'lhopital',x=>scoreValue(x.post),-1),eIssue:s=>crossValue(s,'extremum',x=>x.releaseErrors,-1),lIssue:s=>crossValue(s,'lhopital',x=>x.trapErrors,-1),both:s=>s.bothIssue?1:0},sorts.cross);}
+function renderCross(){const parent=$('module-panel'),cross=model.cross;parent.append(el('div','notice','按姓名或学号完全一致匹配，请提醒学生两个课件填写同一学号。'));const metrics=el('div','metrics cross-top');add(metrics,card('两模块都完成',cross.both,'人'),card('只完成最值',cross.onlyExtremum,'人'),card('只完成洛必达',cross.onlyLhopital,'人'));parent.append(metrics);const focus=el('div','spotlight');add(focus,el('strong','',`两个模块都出现条件判断问题：${cross.bothIssue} 人`),el('p','','最值前测有错因或训练中有误放行，并且洛必达属于“会算不会判”或有陷阱误选（旧版记录按陷阱节点未能独立判断）。'),el('p','','同一类“不先判条件”的问题在两个知识点上反复出现，建议统一强调先检验条件的习惯。'));if(!cross.both)focus.append(el('p','','暂无两模块都完成的学生'));parent.append(focus);
+ const c=section('跨模块明细表','点击任一列表头排序'),controls=el('div','controls'),label=el('label'),checkbox=el('input');checkbox.type='checkbox';checkbox.checked=onlyIssues;checkbox.id='cross-filter';checkbox.addEventListener('change',()=>{onlyIssues=checkbox.checked;render();});add(label,checkbox,document.createTextNode(' 只看两模块都有问题的学生'));controls.append(label,el('span','note',`显示 ${crossRows().length}／${cross.students.length} 人`));c.querySelector('.section-head').append(controls);c.append(el('p','cross-note','条件误判：都是课件记录的学生第一次在条件判断节点上走错路的次数；两个模块错误类型不同，不相加。旧版推算单独标注。'));
+ const columns=[['学生','name'],['前测','ePre'],['前测错因','eErrors'],['后测','ePost'],['需巩固节点','eWeak'],['前测','lPre'],['会算不会判','lCan'],['前测错因','lErrors'],['后测','lPost'],['最值·误放行','eIssue'],['洛必达·陷阱误选','lIssue'],['两模块都有问题','both']];
+ const tableWrap=createTable(columns.map(([n,k])=>sortHead(n,k,'cross')),crossRows(),s=>{const tr=el('tr');tr.dataset.issue=s.bothIssue;tr.append(cell(s.name,'student-name'));const e=s.extremum,l=s.lhopital;for(const v of e?[e.pre,join(e.errorNames),e.post,join(e.weakNodeNames)]:['未完成','未完成','未完成','未完成'])tr.append(cell(v,'wrap'));for(const v of l?[l.pre,l.canCalculateCannotJudge===null?'不计入':l.canCalculateCannotJudge?'是':'否',join(l.errorNames),l.post]:['未完成','未完成','未完成','未完成'])tr.append(cell(v,'wrap'));tr.append(cell(e?e.releaseErrors:'未完成',e?'warm-text':''),trapCell(l),cell(s.bothIssue?'是':'否',s.bothIssue?'warm-text':''));return tr;},'cross');
+ const group=el('tr');for(const [text,span] of [['学生',1],['最值判断',4],['洛必达法则',4],['条件误判',2],['共同关注',1]]){const th=el('th','',text);th.colSpan=span;th.scope='colgroup';group.append(th);}tableWrap.querySelector('thead').prepend(group);c.append(tableWrap);c.append(note('未署名记录各自保留，不参与跨模块匹配。“不计入”表示前测非 7 题或缺少可用前测。'));parent.append(c);const exp=section('导出'),b=el('button','','下载跨模块 CSV'),status=el('p','live-status');status.setAttribute('role','status');b.addEventListener('click',()=>{download(API.crossCSV(cross,crossRows()),'班级学情-学生总览.csv');status.textContent='跨模块 CSV 已生成（包含当前筛选及排序结果）。';});add(exp,b,status);parent.append(exp);
+}
+function render(){if(!model)return;$('module-panel').replaceChildren();for(const t of document.querySelectorAll('[data-tab]')){const selected=t.dataset.tab===active;t.setAttribute('aria-selected',selected);t.tabIndex=selected?0:-1;} $('module-panel').setAttribute('aria-labelledby','tab-'+active);$('demo-badge').hidden=!isDemo;if(active==='cross')renderCross();else renderModule(model.modules[active]);}
+function run(demo=false){setInputCollapsed(true);isDemo=demo;model=API.analyze($('source').value);filters={extremum:'',lhopital:''};onlyIssues=false;$('results').hidden=false;$('intro').hidden=true;$('stale').hidden=true;const p=model.parsed;$('input-status').textContent=`已汇总 ${p.records.length} 条有效记录；${p.invalid.length} 条无效行；已去除重复行 ${p.duplicates} 条。`+(p.anonymousCount?`有 ${p.anonymousCount} 条记录未填写姓名或学号。`:'');if(!model.modules[active]?.rounds&&active!=='cross')active=model.modules.extremum.rounds?'extremum':model.modules.lhopital.rounds?'lhopital':'extremum';render();}
+function setInputCollapsed(collapsed){$('source').hidden=collapsed;$('input-panel').className='panel input-panel'+(collapsed?' compact':'');$('edit-input').hidden=false;$('edit-input').textContent=collapsed?'展开输入':'收起输入';$('edit-input').setAttribute('aria-expanded',!collapsed);}
+$('edit-input').addEventListener('click',()=>{const expand=$('source').hidden;setInputCollapsed(!expand);if(expand)$('source').focus();});
+$('analyze').addEventListener('click',()=>run(isDemo));$('sample').addEventListener('click',()=>{$('source').value=window.TEACHER_SAMPLE_TEXT;active='extremum';run(true);});$('clear').addEventListener('click',()=>{$('source').value='';setInputCollapsed(false);$('edit-input').hidden=true;model=null;isDemo=false;$('results').hidden=true;$('intro').hidden=false;$('demo-badge').hidden=true;$('module-panel').replaceChildren();$('input-status').textContent='已清空输入和统计结果。';$('source').focus();});$('source').addEventListener('input',()=>{isDemo=false;$('demo-badge').hidden=true;$('stale').hidden=!model;$('input-status').textContent='输入已更新，点击“开始汇总”后查看。';});
+for(const t of document.querySelectorAll('[data-tab]')){t.addEventListener('click',()=>{active=t.dataset.tab;render();});t.addEventListener('keydown',event=>{const tabs=[...document.querySelectorAll('[data-tab]')],i=tabs.indexOf(t);let next=null;if(event.key==='ArrowRight')next=(i+1)%tabs.length;if(event.key==='ArrowLeft')next=(i+tabs.length-1)%tabs.length;if(event.key==='Home')next=0;if(event.key==='End')next=tabs.length-1;if(next!==null){event.preventDefault();active=tabs[next].dataset.tab;render();tabs[next].focus();}});}
+})();
+
+
+
+</script>
+</body></html>
+
